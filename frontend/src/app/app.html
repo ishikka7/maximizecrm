@@ -1,4 +1,5 @@
 <nav class="navbar navbar-dark bg-dark px-3">
   <span class="navbar-brand">RetailMax CRM</span>
 </nav>
-<app-lead-list />
+<app-dashboard #dash />
+<app-lead-list (changed)="dash.refresh()" />

@@ -1,0 +1,42 @@
+<div class="container pt-4">
+  <h4 class="mb-3">Dashboard</h4>
+
+  @if (stats(); as s) {
+    <div class="row g-3 mb-3">
+      <div class="col-md-4">
+        <div class="card text-center"><div class="card-body">
+          <div class="text-muted small">Total leads</div>
+          <div class="fs-2 fw-bold">{{ s.total }}</div>
+        </div></div>
+      </div>
+      <div class="col-md-4">
+        <div class="card text-center"><div class="card-body">
+          <div class="text-muted small">Average lead score</div>
+          <div class="fs-2 fw-bold">{{ s.avgScore }}</div>
+        </div></div>
+      </div>
+      <div class="col-md-4">
+        <div class="card text-center"><div class="card-body">
+          <div class="text-muted small">Qualified rate</div>
+          <div class="fs-2 fw-bold">{{ s.conversionRate }}%</div>
+        </div></div>
+      </div>
+    </div>
+  }
+
+  <div class="row g-3">
+    <div class="col-md-6">
+      <div class="card"><div class="card-body">
+        <h6>Leads by status</h6>
+        <div style="height: 260px"><canvas #statusChart></canvas></div>
+      </div></div>
+    </div>
+    <div class="col-md-6">
+      <div class="card"><div class="card-body">
+        <h6>Leads by source</h6>
+        <div style="height: 260px"><canvas #sourceChart></canvas></div>
+      </div></div>
+    </div>
+  </div>
+  <hr class="mt-4 mb-0">
+</div>

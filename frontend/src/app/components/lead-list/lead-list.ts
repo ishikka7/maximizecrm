@@ -1,4 +1,4 @@
-import { Component, OnInit, computed, signal } from '@angular/core';
+import { Component, OnInit, computed, output, signal } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HistoryModel, LeadModel, LeadService } from '../../services/lead';
@@ -24,7 +24,7 @@ export class LeadList implements OnInit {
       (!this.statusFilter() || l.status === this.statusFilter())
     )
   );
-
+  changed = output<void>();
   form: LeadModel = this.blank();
 
   constructor(private svc: LeadService) {}
@@ -38,6 +38,7 @@ export class LeadList implements OnInit {
     req.subscribe(() => {
       this.form = this.blank();
       this.load();
+      this.changed.emit();
       const open = this.historyLead();
       if (open) this.showHistory(open);
     });
@@ -50,6 +51,7 @@ export class LeadList implements OnInit {
       this.svc.delete(id).subscribe(() => {
         if (this.historyLead()?.id === id) this.closeHistory();
         this.load();
+        this.changed.emit();
       });
     }
   }

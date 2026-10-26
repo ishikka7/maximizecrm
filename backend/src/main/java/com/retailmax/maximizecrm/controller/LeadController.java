@@ -12,6 +12,9 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/leads")
@@ -55,6 +58,30 @@ public class LeadController {
         return saved;
     }
 
+    @GetMapping("/stats")
+    public Map<String, Object> stats() {
+        List<Lead> all = repo.findAll();
+
+        Map<String, Long> byStatus = new LinkedHashMap<>();
+        for (String s : List.of("New", "Contacted", "Qualified", "Lost")) byStatus.put(s, 0L);
+        all.forEach(l -> byStatus.merge(l.getStatus() == null ? "Unknown" : l.getStatus(), 1L, Long::sum));
+
+        Map<String, Long> bySource = all.stream().collect(Collectors.groupingBy(
+                l -> l.getSource() == null ? "Unknown" : l.getSource(),
+                LinkedHashMap::new, Collectors.counting()));
+
+        double avgScore = all.stream().mapToInt(l -> l.getScore() == null ? 0 : l.getScore()).average().orElse(0);
+        double conversion = all.isEmpty() ? 0 : byStatus.get("Qualified") * 100.0 / all.size();
+
+        Map<String, Object> result = new LinkedHashMap<>();
+        result.put("total", all.size());
+        result.put("avgScore", Math.round(avgScore * 10) / 10.0);
+        result.put("conversionRate", Math.round(conversion * 10) / 10.0);
+        result.put("byStatus", byStatus);
+        result.put("bySource", bySource);
+        return result;
+    }
+    
     @GetMapping("/{id}/history")
     public List<LeadStatusHistory> history(@PathVariable Long id) {
         return historyRepo.findByLeadIdOrderByChangedAtDesc(id);
