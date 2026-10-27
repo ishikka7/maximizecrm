@@ -15,3 +15,13 @@ INSERT INTO lead_status_history (lead_id, old_status, new_status, changed_at) VA
 (4, NULL, 'Qualified', CURRENT_TIMESTAMP),
 (5, NULL, 'Lost', CURRENT_TIMESTAMP),
 (6, NULL, 'New', CURRENT_TIMESTAMP);
+
+INSERT INTO opportunities (name, lead_id, lead_name, amount, stage, created_at) VALUES
+('Ravi Sharma - Deal', 1, 'Ravi Sharma', 35000, 'Negotiation', CURRENT_TIMESTAMP),
+('Neha Gupta - Deal', 4, 'Neha Gupta', 30000, 'Proposal', CURRENT_TIMESTAMP),
+('Bulk order - Amit Verma', 3, 'Amit Verma', 45000, 'Prospecting', CURRENT_TIMESTAMP),
+('Festive hamper order', NULL, 'Walk-in customer', 20000, 'Won', CURRENT_TIMESTAMP),
+('Showroom display order', 5, 'Karan Mehta', 15000, 'Lost', CURRENT_TIMESTAMP);
+
+INSERT INTO campaigns (name, message, segment, status, sent_count, created_at) VALUES
+('Diwali Offer for Hot Leads', 'Hi {name}, enjoy 20% off this Diwali at RetailMax!', 'HOT', 'Draft', 0, CURRENT_TIMESTAMP);

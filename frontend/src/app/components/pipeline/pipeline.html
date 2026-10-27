@@ -1,0 +1,68 @@
+<div class="container-fluid px-4 py-4">
+  <h4 class="mb-1">Sales Pipeline</h4>
+  <p class="text-muted small">
+    Automation rule: when a lead is marked <b>Qualified</b>, a deal is created here automatically
+    in Prospecting (estimated value = lead score x 500).
+  </p>
+
+  <div class="row g-3 mb-3">
+    <div class="col-md-4">
+      <div class="card text-center"><div class="card-body">
+        <div class="text-muted small">Open pipeline value</div>
+        <div class="fs-3 fw-bold">{{ openValue() | currency:'INR':'symbol':'1.0-0' }}</div>
+      </div></div>
+    </div>
+    <div class="col-md-4">
+      <div class="card text-center"><div class="card-body">
+        <div class="text-muted small">Won value</div>
+        <div class="fs-3 fw-bold">{{ wonValue() | currency:'INR':'symbol':'1.0-0' }}</div>
+      </div></div>
+    </div>
+    <div class="col-md-4">
+      <div class="card text-center"><div class="card-body">
+        <div class="text-muted small">Win rate</div>
+        <div class="fs-3 fw-bold">{{ winRate() }}%</div>
+      </div></div>
+    </div>
+  </div>
+
+  <form (ngSubmit)="add()" class="row g-2 mb-4">
+    <div class="col-md-5"><input class="form-control" placeholder="New deal name" name="dealName" [(ngModel)]="form.name" required></div>
+    <div class="col-md-3"><input class="form-control" type="number" placeholder="Amount" name="dealAmount" [(ngModel)]="form.amount"></div>
+    <div class="col-md-2"><button class="btn btn-primary w-100" type="submit">Add deal</button></div>
+  </form>
+
+  <div class="row g-3">
+    @for (st of stages; track st) {
+      <div class="col">
+        <div class="card h-100">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <span class="badge {{ stageClass(st) }}">{{ st }}</span>
+            <small class="text-muted">{{ stageTotal(st) | currency:'INR':'symbol':'1.0-0' }}</small>
+          </div>
+          <div class="card-body p-2">
+            @for (d of byStage(st); track d.id) {
+              <div class="border rounded p-2 mb-2 bg-white">
+                <div class="fw-semibold small">{{ d.name }}</div>
+                <div class="text-muted small">{{ d.leadName }}</div>
+                <div class="small">{{ d.amount | currency:'INR':'symbol':'1.0-0' }}</div>
+                <div class="mt-2 d-flex flex-wrap gap-1">
+                  @if (canBack(d)) {
+                    <button class="btn btn-sm btn-outline-secondary" (click)="back(d)">Back</button>
+                  }
+                  @if (isOpen(d)) {
+                    <button class="btn btn-sm btn-primary" (click)="next(d)">{{ d.stage === 'Negotiation' ? 'Mark Won' : 'Next' }}</button>
+                    <button class="btn btn-sm btn-outline-danger" (click)="move(d, 'Lost')">Lost</button>
+                  }
+                  <button class="btn btn-sm btn-link text-danger p-0" (click)="remove(d)">Delete</button>
+                </div>
+              </div>
+            } @empty {
+              <div class="text-muted small text-center">No deals</div>
+            }
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>

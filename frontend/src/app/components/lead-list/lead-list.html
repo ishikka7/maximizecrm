@@ -1,8 +1,12 @@
 <div class="container py-4">
-  <h4 class="mb-3">Lead Management</h4>
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0">Lead Management</h4>
+    <a class="btn btn-sm btn-outline-success" href="http://localhost:8080/api/leads/export">Export CSV</a>
+  </div>
 
   <form (ngSubmit)="save()" class="row g-2 mb-4">
-    <div class="col-md-3"><input class="form-control" placeholder="Name" name="name" [(ngModel)]="form.name" required></div>
+    <div class="col-md-3"><input class="form-control" placeholder="Name" name="name" [(ngModel)]="form.name" required>
+    </div>
     <div class="col-md-3"><input class="form-control" placeholder="Email" name="email" [(ngModel)]="form.email"></div>
     <div class="col-md-2"><input class="form-control" placeholder="Phone" name="phone" [(ngModel)]="form.phone"></div>
     <div class="col-md-2">
@@ -32,43 +36,54 @@
 
   <table class="table table-striped align-middle">
     <thead>
-      <tr><th>Name</th><th>Email</th><th>Phone</th><th>Source</th><th>Status</th><th>Score</th><th></th></tr>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Source</th>
+        <th>Status</th>
+        <th>Score</th>
+        <th></th>
+      </tr>
     </thead>
     <tbody>
       @for (l of filtered(); track l.id) {
-        <tr>
-          <td>{{ l.name }}</td><td>{{ l.email }}</td><td>{{ l.phone }}</td>
-          <td>{{ l.source }}</td><td>{{ l.status }}</td>
-          <td>
-            <span class="badge {{ scoreClass(l.score) }}">{{ scoreLabel(l.score) }} · {{ l.score }}</span>
-          </td>
-          <td class="text-nowrap">
-            <button class="btn btn-sm btn-outline-secondary me-1" (click)="showHistory(l)">History</button>
-            <button class="btn btn-sm btn-outline-primary me-1" (click)="edit(l)">Edit</button>
-            <button class="btn btn-sm btn-outline-danger" (click)="remove(l.id!)">Delete</button>
-          </td>
-        </tr>
+      <tr>
+        <td>{{ l.name }}</td>
+        <td>{{ l.email }}</td>
+        <td>{{ l.phone }}</td>
+        <td>{{ l.source }}</td>
+        <td>{{ l.status }}</td>
+        <td>
+          <span class="badge {{ scoreClass(l.score) }}">{{ scoreLabel(l.score) }} · {{ l.score }}</span>
+        </td>
+        <td class="text-nowrap">
+          <button class="btn btn-sm btn-outline-secondary me-1" (click)="showHistory(l)">History</button>
+          <button class="btn btn-sm btn-outline-primary me-1" (click)="edit(l)">Edit</button>
+          <button class="btn btn-sm btn-outline-danger" (click)="remove(l.id!)">Delete</button>
+        </td>
+      </tr>
       }
     </tbody>
   </table>
 
   @if (historyLead(); as hl) {
-    <div class="card mt-4">
-      <div class="card-header d-flex justify-content-between align-items-center">
-        <span>Status history: <strong>{{ hl.name }}</strong></span>
-        <button class="btn btn-sm btn-outline-secondary" (click)="closeHistory()">Close</button>
-      </div>
-      <ul class="list-group list-group-flush">
-        @for (h of history(); track h.id) {
-          <li class="list-group-item d-flex justify-content-between">
-            <span>
-              @if (h.oldStatus) { {{ h.oldStatus }} → <strong>{{ h.newStatus }}</strong> }
-              @else { Lead created as <strong>{{ h.newStatus }}</strong> }
-            </span>
-            <small class="text-muted">{{ h.changedAt | date:'medium' }}</small>
-          </li>
-        }
-      </ul>
+  <div class="card mt-4">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <span>Status history: <strong>{{ hl.name }}</strong></span>
+      <button class="btn btn-sm btn-outline-secondary" (click)="closeHistory()">Close</button>
     </div>
+    <ul class="list-group list-group-flush">
+      @for (h of history(); track h.id) {
+      <li class="list-group-item d-flex justify-content-between">
+        <span>
+          @if (h.oldStatus) { {{ h.oldStatus }} → <strong>{{ h.newStatus }}</strong> }
+          @else { Lead created as <strong>{{ h.newStatus }}</strong> }
+        </span>
+        <small class="text-muted">{{ h.changedAt | date:'medium' }}</small>
+      </li>
+      }
+    </ul>
+  </div>
   }
 </div>

@@ -1,0 +1,66 @@
+<div class="container py-4">
+  <h4 class="mb-1">Marketing Campaigns</h4>
+  <p class="text-muted small">
+    Pick an audience segment, write a message and send it. Emails are simulated and every recipient is logged.
+  </p>
+
+  <form (ngSubmit)="create()" class="row g-2 mb-1">
+    <div class="col-md-4"><input class="form-control" placeholder="Campaign name" name="cname" [(ngModel)]="form.name" required></div>
+    <div class="col-md-4">
+      <select class="form-select" name="segment" [(ngModel)]="form.segment">
+        @for (s of segments; track s.code) { <option [value]="s.code">{{ s.label }}</option> }
+      </select>
+    </div>
+    <div class="col-md-4"><button class="btn btn-primary w-100" type="submit">Create campaign</button></div>
+    <div class="col-12"><textarea class="form-control" rows="2" name="message" [(ngModel)]="form.message"></textarea></div>
+  </form>
+  <div class="text-muted small mb-4">{{ hint }}</div>
+
+  <table class="table table-striped align-middle">
+    <thead><tr><th>Campaign</th><th>Audience</th><th>Status</th><th>Sent to</th><th></th></tr></thead>
+    <tbody>
+      @for (c of campaigns(); track c.id) {
+        <tr>
+          <td>
+            <div>{{ c.name }}</div>
+            <div class="text-muted small">{{ c.message }}</div>
+          </td>
+          <td>{{ segmentLabel(c.segment) }}</td>
+          <td>
+            <span class="badge" [class.bg-success]="c.status === 'Sent'" [class.bg-secondary]="c.status !== 'Sent'">{{ c.status }}</span>
+          </td>
+          <td>{{ c.sentCount }}</td>
+          <td class="text-nowrap">
+            @if (c.status !== 'Sent') {
+              <button class="btn btn-sm btn-primary" (click)="send(c)">Send now</button>
+            } @else {
+              <button class="btn btn-sm btn-outline-secondary" (click)="showLogs(c)">View recipients</button>
+            }
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+
+  @if (openCampaign(); as oc) {
+    <div class="card mt-4">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <span>Recipients: <strong>{{ oc.name }}</strong> ({{ logs().length }} emails sent)</span>
+        <button class="btn btn-sm btn-outline-secondary" (click)="closeLogs()">Close</button>
+      </div>
+      <ul class="list-group list-group-flush">
+        @for (l of logs(); track l.id) {
+          <li class="list-group-item">
+            <div class="d-flex justify-content-between">
+              <span><strong>{{ l.leadName }}</strong> &lt;{{ l.email }}&gt;</span>
+              <small class="text-muted">{{ l.sentAt | date:'medium' }}</small>
+            </div>
+            <div class="small text-muted">{{ l.message }}</div>
+          </li>
+        } @empty {
+          <li class="list-group-item text-muted">No matching leads with an email address.</li>
+        }
+      </ul>
+    </div>
+  }
+</div>

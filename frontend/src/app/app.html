@@ -1,5 +1,19 @@
 <nav class="navbar navbar-dark bg-dark px-3">
   <span class="navbar-brand">RetailMax CRM</span>
+  <div class="d-flex gap-2">
+    <button class="btn btn-sm" [class.btn-light]="tab() === 'leads'" [class.btn-outline-light]="tab() !== 'leads'" (click)="tab.set('leads')">Leads</button>
+    <button class="btn btn-sm" [class.btn-light]="tab() === 'pipeline'" [class.btn-outline-light]="tab() !== 'pipeline'" (click)="tab.set('pipeline')">Pipeline</button>
+    <button class="btn btn-sm" [class.btn-light]="tab() === 'campaigns'" [class.btn-outline-light]="tab() !== 'campaigns'" (click)="tab.set('campaigns')">Campaigns</button>
+  </div>
 </nav>
-<app-dashboard #dash />
-<app-lead-list (changed)="dash.refresh()" />
+
+@if (tab() === 'leads') {
+  <app-dashboard #dash />
+  <app-lead-list (changed)="dash.refresh()" />
+}
+@if (tab() === 'pipeline') {
+  <app-pipeline />
+}
+@if (tab() === 'campaigns') {
+  <app-campaigns />
+}
