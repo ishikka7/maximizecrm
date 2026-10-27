@@ -25,3 +25,7 @@ INSERT INTO opportunities (name, lead_id, lead_name, amount, stage, created_at) 
 
 INSERT INTO campaigns (name, message, segment, status, sent_count, created_at) VALUES
 ('Diwali Offer for Hot Leads', 'Hi {name}, enjoy 20% off this Diwali at RetailMax!', 'HOT', 'Draft', 0, CURRENT_TIMESTAMP);
+
+INSERT INTO contacts (lead_id, name, email, phone, source, lifetime_value, created_at) VALUES
+(NULL, 'Anita Desai', 'anita@example.com', '9876500101', 'Referral', 52000, CURRENT_TIMESTAMP),
+(NULL, 'Rohit Malhotra', 'rohit@example.com', '9876500102', 'Store Visit', 18000, CURRENT_TIMESTAMP);

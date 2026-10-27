@@ -1,9 +1,10 @@
-<nav class="navbar navbar-dark bg-dark px-3">
-  <span class="navbar-brand">RetailMax CRM</span>
-  <div class="d-flex gap-2">
-    <button class="btn btn-sm" [class.btn-light]="tab() === 'leads'" [class.btn-outline-light]="tab() !== 'leads'" (click)="tab.set('leads')">Leads</button>
-    <button class="btn btn-sm" [class.btn-light]="tab() === 'pipeline'" [class.btn-outline-light]="tab() !== 'pipeline'" (click)="tab.set('pipeline')">Pipeline</button>
-    <button class="btn btn-sm" [class.btn-light]="tab() === 'campaigns'" [class.btn-outline-light]="tab() !== 'campaigns'" (click)="tab.set('campaigns')">Campaigns</button>
+<nav class="app-nav">
+  <div class="brand"><span class="brand-icon">R</span> RetailMax CRM</div>
+  <div class="tabs">
+    <button class="tab-btn" [class.active]="tab() === 'leads'" (click)="tab.set('leads')">Leads</button>
+    <button class="tab-btn" [class.active]="tab() === 'pipeline'" (click)="tab.set('pipeline')">Pipeline</button>
+    <button class="tab-btn" [class.active]="tab() === 'customers'" (click)="tab.set('customers')">Customers</button>
+    <button class="tab-btn" [class.active]="tab() === 'campaigns'" (click)="tab.set('campaigns')">Campaigns</button>
   </div>
 </nav>
 
@@ -11,9 +12,6 @@
   <app-dashboard #dash />
   <app-lead-list (changed)="dash.refresh()" />
 }
-@if (tab() === 'pipeline') {
-  <app-pipeline />
-}
-@if (tab() === 'campaigns') {
-  <app-campaigns />
-}
+@if (tab() === 'pipeline') { <app-pipeline /> }
+@if (tab() === 'customers') { <app-customers /> }
+@if (tab() === 'campaigns') { <app-campaigns /> }

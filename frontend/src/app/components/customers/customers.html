@@ -1,0 +1,52 @@
+<div class="container py-4">
+  <div class="mb-3">
+    <h4 class="mb-0">Customers</h4>
+    <div class="text-muted small">
+      A lead becomes a customer automatically when its deal is marked Won in the pipeline.
+    </div>
+  </div>
+
+  <div class="row g-3 mb-4">
+    <div class="col-md-6">
+      <div class="kpi kpi-blue">
+        <div class="label">Total customers</div>
+        <div class="value">{{ customers().length }}</div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="kpi kpi-green">
+        <div class="label">Total lifetime value</div>
+        <div class="value">{{ totalValue() | currency:'INR':'symbol':'1.0-0' }}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="table-card">
+    <table class="table table-hover align-middle mb-0">
+      <thead>
+        <tr><th>Customer</th><th>Phone</th><th>Source</th><th>Lifetime value</th><th>Customer since</th></tr>
+      </thead>
+      <tbody>
+        @for (c of customers(); track c.id) {
+          <tr>
+            <td>
+              <div class="d-flex align-items-center gap-2">
+                <span class="avatar">{{ initials(c.name) }}</span>
+                <div>
+                  <div class="fw-semibold">{{ c.name }}</div>
+                  <div class="text-muted small">{{ c.email }}</div>
+                </div>
+              </div>
+            </td>
+            <td>{{ c.phone }}</td>
+            <td>{{ c.source }}</td>
+            <td class="fw-semibold">{{ c.lifetimeValue | currency:'INR':'symbol':'1.0-0' }}</td>
+            <td class="text-muted">{{ c.createdAt | date:'mediumDate' }}</td>
+          </tr>
+        } @empty {
+          <tr><td colspan="5" class="text-center text-muted py-4">No customers yet. Mark a deal as Won to create one.</td></tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

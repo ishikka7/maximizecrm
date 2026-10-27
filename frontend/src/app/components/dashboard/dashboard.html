@@ -1,25 +1,28 @@
 <div class="container pt-4">
-  <h4 class="mb-3">Dashboard</h4>
+  <div class="mb-3">
+    <h4 class="mb-0">Dashboard</h4>
+    <div class="text-muted small">Live snapshot of your lead pipeline</div>
+  </div>
 
   @if (stats(); as s) {
     <div class="row g-3 mb-3">
       <div class="col-md-4">
-        <div class="card text-center"><div class="card-body">
-          <div class="text-muted small">Total leads</div>
-          <div class="fs-2 fw-bold">{{ s.total }}</div>
-        </div></div>
+        <div class="kpi kpi-blue">
+          <div class="label">Total leads</div>
+          <div class="value">{{ s.total }}</div>
+        </div>
       </div>
       <div class="col-md-4">
-        <div class="card text-center"><div class="card-body">
-          <div class="text-muted small">Average lead score</div>
-          <div class="fs-2 fw-bold">{{ s.avgScore }}</div>
-        </div></div>
+        <div class="kpi kpi-amber">
+          <div class="label">Average lead score</div>
+          <div class="value">{{ s.avgScore }}</div>
+        </div>
       </div>
       <div class="col-md-4">
-        <div class="card text-center"><div class="card-body">
-          <div class="text-muted small">Qualified rate</div>
-          <div class="fs-2 fw-bold">{{ s.conversionRate }}%</div>
-        </div></div>
+        <div class="kpi kpi-green">
+          <div class="label">Qualified rate</div>
+          <div class="value">{{ s.conversionRate }}%</div>
+        </div>
       </div>
     </div>
   }
@@ -27,16 +30,15 @@
   <div class="row g-3">
     <div class="col-md-6">
       <div class="card"><div class="card-body">
-        <h6>Leads by status</h6>
-        <div style="height: 260px"><canvas #statusChart></canvas></div>
+        <div class="fw-semibold mb-2">Leads by status</div>
+        <div style="height: 240px"><canvas #statusChart></canvas></div>
       </div></div>
     </div>
     <div class="col-md-6">
       <div class="card"><div class="card-body">
-        <h6>Leads by source</h6>
-        <div style="height: 260px"><canvas #sourceChart></canvas></div>
+        <div class="fw-semibold mb-2">Leads by source</div>
+        <div style="height: 240px"><canvas #sourceChart></canvas></div>
       </div></div>
     </div>
   </div>
-  <hr class="mt-4 mb-0">
 </div>

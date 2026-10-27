@@ -12,6 +12,7 @@ export class Pipeline implements OnInit {
   stages = ['Prospecting', 'Proposal', 'Negotiation', 'Won', 'Lost'];
   flow = ['Prospecting', 'Proposal', 'Negotiation', 'Won'];
   deals = signal<OpportunityModel[]>([]);
+  message = signal('');
   form: OpportunityModel = { name: '', amount: 10000, stage: 'Prospecting' };
 
   openValue = computed(() =>
@@ -24,7 +25,7 @@ export class Pipeline implements OnInit {
     return won + lost === 0 ? 0 : Math.round((won * 100) / (won + lost));
   });
 
-  constructor(private svc: OpportunityService) {}
+  constructor(private svc: OpportunityService) { }
   ngOnInit() { this.load(); }
 
   load() { this.svc.getAll().subscribe(d => this.deals.set(d)); }
@@ -40,7 +41,13 @@ export class Pipeline implements OnInit {
   }
 
   move(d: OpportunityModel, stage: string) {
-    this.svc.moveStage(d.id!, stage).subscribe(() => this.load());
+    this.svc.moveStage(d.id!, stage).subscribe(() => {
+      this.load();
+      if (stage === 'Won' && d.leadId) {
+        this.message.set(`${d.leadName} was converted to a customer. See the Customers tab.`);
+        setTimeout(() => this.message.set(''), 5000);
+      }
+    });
   }
   next(d: OpportunityModel) {
     const i = this.flow.indexOf(d.stage);

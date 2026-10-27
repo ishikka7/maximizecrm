@@ -70,4 +70,18 @@ export class LeadList implements OnInit {
     const s = score ?? 0;
     return s >= 60 ? 'bg-danger' : s >= 40 ? 'bg-warning text-dark' : 'bg-secondary';
   }
+    statusClass(s: string): string {
+    switch (s) {
+      case 'New': return 'pill-new';
+      case 'Contacted': return 'pill-contacted';
+      case 'Qualified': return 'pill-qualified';
+      default: return 'pill-lost';
+    }
+  }
+
+  initials(name: string): string {
+    return (name || '?').split(' ').map(p => p[0]).slice(0, 2).join('').toUpperCase();
+  }
+
+  cancelEdit() { this.form = this.blank(); }
 }

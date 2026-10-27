@@ -1,1 +1,80 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  --brand: #4f46e5;
+  --brand-dark: #3730a3;
+  --bg: #f4f6fb;
+  --ink: #1f2937;
+  --muted: #6b7280;
+  --shadow: 0 1px 3px rgba(16, 24, 40, 0.08), 0 1px 2px rgba(16, 24, 40, 0.04);
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+}
+h4 { font-weight: 700; }
+
+/* Navbar */
+.app-nav {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 28px;
+  background: linear-gradient(90deg, #1e1b4b, #4f46e5);
+  position: sticky; top: 0; z-index: 10;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+}
+.brand { color: #fff; font-weight: 700; font-size: 1.1rem; display: flex; align-items: center; gap: 10px; }
+.brand-icon {
+  width: 32px; height: 32px; border-radius: 8px; background: #fff; color: var(--brand);
+  display: grid; place-items: center; font-weight: 800;
+}
+.tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+.tab-btn {
+  border: 0; background: transparent; color: #c7d2fe; padding: 8px 16px;
+  border-radius: 8px; font-weight: 600; font-size: 0.9rem; transition: 0.15s;
+}
+.tab-btn:hover { background: rgba(255, 255, 255, 0.12); color: #fff; }
+.tab-btn.active { background: #fff; color: var(--brand-dark); }
+
+/* Cards, buttons, forms */
+.card { border: 0; border-radius: 14px; box-shadow: var(--shadow); }
+.card-header { background: transparent; border-bottom: 1px solid #eef0f4; font-weight: 600; }
+.btn { border-radius: 8px; font-weight: 600; }
+.btn-primary { background: var(--brand); border-color: var(--brand); }
+.btn-primary:hover { background: var(--brand-dark); border-color: var(--brand-dark); }
+.form-control, .form-select { border-radius: 8px; border-color: #dfe3ea; }
+.form-control:focus, .form-select:focus {
+  border-color: var(--brand); box-shadow: 0 0 0 0.2rem rgba(79, 70, 229, 0.15);
+}
+
+/* Tables */
+.table-card { background: #fff; border-radius: 14px; box-shadow: var(--shadow); overflow: hidden; }
+.table thead th {
+  font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em;
+  color: var(--muted); font-weight: 700; background: #fafbfd; border-bottom: 1px solid #eef0f4;
+}
+.table > :not(caption) > * > * { padding: 0.8rem 1rem; }
+.table-hover tbody tr:hover { background: #f7f8ff; }
+
+/* Badges, pills, avatars */
+.badge { border-radius: 999px; font-weight: 600; padding: 0.45em 0.8em; }
+.pill { display: inline-block; padding: 0.3em 0.75em; border-radius: 999px; font-size: 0.78rem; font-weight: 600; }
+.pill-new { background: #dbeafe; color: #1d4ed8; }
+.pill-contacted { background: #fef3c7; color: #92400e; }
+.pill-qualified { background: #d1fae5; color: #065f46; }
+.pill-lost { background: #fee2e2; color: #991b1b; }
+.avatar {
+  width: 36px; height: 36px; border-radius: 50%; background: #e0e7ff; color: var(--brand-dark);
+  display: inline-grid; place-items: center; font-weight: 700; font-size: 0.8rem; flex: none;
+}
+
+/* KPI cards */
+.kpi {
+  background: #fff; border-radius: 14px; padding: 18px 20px; box-shadow: var(--shadow);
+  border-left: 5px solid var(--brand);
+}
+.kpi .label { color: var(--muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; }
+.kpi .value { font-size: 1.9rem; font-weight: 800; line-height: 1.25; }
+.kpi-blue { border-left-color: #4f46e5; }
+.kpi-green { border-left-color: #10b981; }
+.kpi-amber { border-left-color: #f59e0b; }
+.kpi-pink { border-left-color: #ec4899; }

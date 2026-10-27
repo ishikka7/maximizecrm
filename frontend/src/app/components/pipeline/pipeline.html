@@ -4,6 +4,9 @@
     Automation rule: when a lead is marked <b>Qualified</b>, a deal is created here automatically
     in Prospecting (estimated value = lead score x 500).
   </p>
+    @if (message()) {
+    <div class="alert alert-success py-2">{{ message() }}</div>
+  }
 
   <div class="row g-3 mb-3">
     <div class="col-md-4">
